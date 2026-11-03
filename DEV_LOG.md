@@ -9,3 +9,5 @@
 - **Registrasi Backlog Modernisasi Backend:** Mendaftarkan butir agenda teknis (Logging JSON, Tagged Cache Redis, Standarisasi Indeks B-Tree Basis Data, dan Health Probes) pada branch `docs/backend-backlog-tasks` di repositori `backend-task-management`.
 - **Penyusunan Dokumentasi Sistem:** Menginisiasi master dokumen spesifikasi sistem (`PRD.md`), Master ADR (`docs/DECISION_LOG.md`), katalog kendala (`docs/KNOWN_ISSUES.md`), dan glosarium terminologi (`docs/GLOSSARY.md`).
 - **Scaffolding Frontend SPA:** Menginisialisasi basis kode klien berbasis Vite, React 19, TypeScript strict mode, dengan integrasi TanStack Router, TanStack Query, Zustand, dnd-kit, dan Axios.
+- **Implementasi Modul Inti Frontend:** Menyelesaikan integrasi modul Otentikasi (lokal & OAuth2), Manajemen Proyek terpaginasi, Papan Tugas Kanban drag-and-drop dengan mutasi optimistik, serta linimasa komentar tugas pada repositori frontend via PR #1.
+

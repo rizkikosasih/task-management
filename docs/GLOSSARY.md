@@ -19,3 +19,4 @@ Kamus istilah domain bisnis dan teknis pada Task Management System.
 - **Idempotency Key:** Kunci acak (UUIDv4) yang dikirimkan via header HTTP `X-Idempotency-Key` untuk menjamin operasi pembuatan data hanya dieksekusi satu kali meskipun terjadi transmisi berulang.
 - **Pessimistic Locking:** Mekanisme penguncian baris basis data saat transaksi berlangsung (`SELECT ... FOR UPDATE`) untuk mencegah modifikasi konkuren simultan.
 - **Optimistic Mutation:** Pembaruan status antarmuka pengguna secara langsung sebelum server mengonfirmasi respon, dengan kemampuan pemulihan (*rollback*) jika server mengembalikan penolakan.
+

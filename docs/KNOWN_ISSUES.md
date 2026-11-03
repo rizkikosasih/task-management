@@ -25,3 +25,4 @@ Dokumen pencatatan kendala teknis dan mitigasi pada tingkat sistem orchestrator 
 - **Kendala:** Repositori hasil kloning Git tidak menyertakan folder `storage/framework/{cache,sessions,views}` dan `storage/logs` karena pola pada `.gitignore`.
 - **Dampak:** Kegagalan fatal penulisan berkas sesi, kompilasi Blade dokumentasi Scramble, atau penulisan log saat pengujian live.
 - **Mitigasi Terpasang:** Setiap lingkungan kerja baru wajib memastikan keberadaan subdirektori tersebut beserta berkas penjaga `.gitignore` internal.
+
