@@ -1,0 +1,20 @@
+{
+  "folders": [
+    {
+      "name": "Task Management Workspace",
+      "path": ".",
+      "repository": "task-management",
+    },
+    {
+      "name": "Backend API",
+      "path": "backend",
+      "repository": "backend-task-management",
+    },
+    {
+      "name": "Frontend Web",
+      "path": "frontend",
+      "repository": "frontend-task-management",
+    },
+  ],
+  "settings": {},
+}
