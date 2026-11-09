@@ -38,7 +38,7 @@ Catatan: Member lain hanya dapat mengakses komentar jika terdaftar memiliki akse
 
 ```text
 task-management/ (Orchestrator)
-├── backend/ (Laravel 11 REST API)
+├── backend/ (Laravel 12 REST API)
 │   ├── Sanctum Authentication
 │   ├── Spatie RBAC & Policy ABAC
 │   └── Idempotency & Pessimistic Locking
@@ -58,7 +58,7 @@ Seluruh respon backend dibungkus dalam struktur amplop baku:
 
 ```json
 {
-  "status": "success",
+  "success": true,
   "message": "Deskripsi respon",
   "data": {},
   "meta": {}
@@ -69,7 +69,7 @@ Format respon galat:
 
 ```json
 {
-  "status": "error",
+  "success": false,
   "message": "Deskripsi galat",
   "errors": {}
 }

@@ -8,13 +8,13 @@ Hierarki Standar Pelacakan Tugas Proyek: Priority -> Sub-Poin -> Item Pekerjaan.
 
 ### 1. Sinkronisasi Kontrak Kritis & Penanganan Defek Antar-Layanan
 
-- [ ] **Penyelarasan Header Idempotensi Backend & Frontend:**
+- [x] **Penyelarasan Header Idempotensi Backend & Frontend:**
   Menyesuaikan IdempotencyMiddleware pada backend agar membaca header X-Idempotency-Key dan Idempotency-Key secara fleksibel guna memastikan mutasi pembuatan proyek dan tugas terproteksi dari duplikasi jaringan.
-- [ ] **Perbaikan Alur Redirect & Callback OAuth2 End-to-End:**
+- [x] **Perbaikan Alur Redirect & Callback OAuth2 End-to-End:**
   Menyelaraskan properti URL redirect pada SocialAuthController dan LoginForm, menerapkan HTTP redirect 302 dari callback backend ke rute klien /oauth/callback?token=..., serta menangani kasus email nihil dari penyedia eksternal pada AuthService.
-- [ ] **Penegakan Isolasi Data Hak Akses Daftar Proyek:**
+- [x] **Penegakan Isolasi Data Hak Akses Daftar Proyek:**
   Menambahkan filter kueri pada ProjectService::getProjects agar pengguna peran member hanya menerima proyek tempat mereka memiliki penugasan tugas aktif, mengeliminasi kebocoran metadata proyek.
-- [ ] **Penyelarasan Standar Amplop Respon pada PRD:**
+- [x] **Penyelarasan Standar Amplop Respon pada PRD:**
   Menyelaraskan dokumentasi PRD.md dengan implementasi riil kode ApiResponse dan tipe TypeScript yang menggunakan properti boolean success.
 
 ### 2. Keamanan, Validasi Token & Pengendalian Akses Jaringan Backend
