@@ -96,3 +96,5 @@ Hierarki Standar Pelacakan Tugas Proyek: Priority -> Sub-Poin -> Item Pekerjaan.
   Melakukan inspeksi langsung alur interaksi keyboard pada drag-and-drop kanban (dnd-kit keyboard sensors), navigasi fokus modal, dan eliminasi gaya teks kaku buatan AI pada label antarmuka.
 - [ ] **Pipeline CI GitHub Actions Frontend:**
   Membangun workflow otomatisasi GitHub Actions (.github/workflows/frontend-ci.yml) yang mengeksekusi pemeriksaan tipe TypeScript, linter Oxlint, format Prettier, suite pengujian Vitest, dan build bundler Vite pada setiap push dan pull request ke branch main.
+- [ ] **Penyempurnaan Skema OpenAPI & Ekspor Swagger UI:**
+  Mengonfigurasi skema keamanan Bearer Auth Sanctum dan amplop respon ApiResponse pada Scramble, menambahkan komponen header X-Idempotency-Key pada dokumentasi rute, serta menyediakan generator skema statis docs/api/openapi.json untuk integrasi Postman dan Swagger UI.
