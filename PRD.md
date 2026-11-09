@@ -65,7 +65,7 @@ Seluruh respon backend dibungkus dalam struktur amplop baku:
 }
 ```
 
-Format respon galat:
+Format respon galat umum (4xx / 5xx):
 
 ```json
 {
@@ -74,4 +74,36 @@ Format respon galat:
   "errors": {}
 }
 ```
+
+Format respon pembatasan frekuensi (HTTP 429 Too Many Requests):
+
+```json
+{
+  "success": false,
+  "message": "Terlalu banyak permintaan. Silakan coba beberapa saat lagi.",
+  "errors": null
+}
+```
+
+Header respon pembatasan frekuensi wajib memuat:
+- `Retry-After`: Estimasi durasi waktu tunggu dalam detik sebelum permintaan berikutnya diizinkan.
+- `X-RateLimit-Limit`: Jumlah kuota permintaan maksimal yang diizinkan dalam satu jendela waktu.
+- `X-RateLimit-Remaining`: Sisa kuota permintaan yang tersedia dalam jendela waktu aktif.
+
+Ambang batas named rate limiter terdistribusi:
+- `api-auth`: 10 permintaan per menit berbasis kombinasi IP klien dan alamat email.
+- `api-oauth`: 15 permintaan per menit berbasis User ID terotentikasi atau IP klien.
+- `api-mutations`: 60 permintaan per menit berbasis User ID terotentikasi atau IP klien.
+- `api-reads`: 120 permintaan per menit berbasis User ID terotentikasi atau IP klien.
+
+---
+
+## 6. Spesifikasi Penautan Akun Pihak Ketiga (OAuth Link)
+
+Endpoint `POST /api/auth/social/{provider}/link` mendukung penautan identitas Google dan GitHub ke akun pengguna terotentikasi:
+- Menerima parameter opsional `token` (Google ID Token, Google Access Token, atau GitHub Personal/OAuth Token).
+- Melakukan verifikasi integritas kriptografis dan masa aktif token langsung ke server penyedia (Google Tokeninfo API atau GitHub API).
+- Memastikan alamat email penyedia cocok dengan email pengguna dan berstatus terverifikasi sebelum mencatat relasi pada tabel `oauth_providers`.
+- Menolak penautan akun ganda jika provider ID telah terikat pada akun lain dengan respon galat HTTP 422.
+
 

@@ -51,3 +51,9 @@
 - **Verifikasi Rangkaian Pengujian Keamanan:** Menyusun suite pengujian baru `tests/Feature/RateLimitingTest.php` (verifikasi throttling brute-force, ambang mutasi, dan isolasi antar-pengguna) dan `tests/Feature/OAuthTokenValidationTest.php` (verifikasi token valid, expired, audience mismatch, dan penolakan akun ganda) via PR backend #15.
 - **Konsolidasi Master ADR & Backlog Workspace:** Memperbarui Master ADR pada `docs/DECISION_LOG.md` (ADR-003 dan ADR-005), menambahkan catatan kendala toleransi Redis dan OAuth pada `docs/KNOWN_ISSUES.md`, menandai penyelesaian Priority 1 Nomor 2 pada `docs/TASKS.md`, serta mendaftarkan butir backlog baru (manajemen profil & password mandiri, mailer email verification, dan cross-platform git hooks).
 
+### Penyelarasan Kontrak API PRD & Proteksi Cadangan Lingkungan
+
+- **Penyelarasan Kontrak API PRD:** Melengkapi dokumen `PRD.md` dengan spesifikasi respon galat HTTP 429 Too Many Requests, header rate limit terstandarisasi (`Retry-After`, `X-RateLimit-Limit`, `X-RateLimit-Remaining`), rincian ambang batas named rate limiter, dan kontrak endpoint penautan akun pihak ketiga `POST /api/auth/social/{provider}/link`.
+- **Proteksi Berkas Cadangan Konfigurasi:** Mengonfigurasi `.gitignore` root workspace agar mengabaikan berkas arsip `*.zip` guna mencegah tereksposnya konfigurasi sensitif (.env) ke riwayat Git, serta menyusun paket cadangan konfigurasi lintas repositori.
+
+
