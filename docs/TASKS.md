@@ -94,3 +94,5 @@ Hierarki Standar Pelacakan Tugas Proyek: Priority -> Sub-Poin -> Item Pekerjaan.
   Menyusun skenario pengetesan form login dan register terintegrasi dengan Mock Service Worker (MSW).
 - [ ] **Audit Aksesibilitas Interaksi Keyboard Langsung:**
   Melakukan inspeksi langsung alur interaksi keyboard pada drag-and-drop kanban (dnd-kit keyboard sensors), navigasi fokus modal, dan eliminasi gaya teks kaku buatan AI pada label antarmuka.
+- [ ] **Pipeline CI GitHub Actions Frontend:**
+  Membangun workflow otomatisasi GitHub Actions (.github/workflows/frontend-ci.yml) yang mengeksekusi pemeriksaan tipe TypeScript, linter Oxlint, format Prettier, suite pengujian Vitest, dan build bundler Vite pada setiap push dan pull request ke branch main.
