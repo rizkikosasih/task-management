@@ -53,7 +53,15 @@
 
 ### Penyelarasan Kontrak API PRD & Proteksi Cadangan Lingkungan
 
-- **Penyelarasan Kontrak API PRD:** Melengkapi dokumen `PRD.md` dengan spesifikasi respon galat HTTP 429 Too Many Requests, header rate limit terstandarisasi (`Retry-After`, `X-RateLimit-Limit`, `X-RateLimit-Remaining`), rincian ambang batas named rate limiter, dan kontrak endpoint penautan akun pihak ketiga `POST /api/auth/social/{provider}/link`.
+- **Penyelarasan Kontrak API PRD:** Melengkapi dokumen `PRD.md` dengan spesifikasi respon galat HTTP 429 Too Many Requests, header rate limit terstandarisasi (`Retry-After`, `X-RateLimit-Limit`, `X-RateLimit-Remaining`), rincian ambang batas named rate limiter, dan kontrak endpoint penautan akun pihak ketiga `POST /api/oauth/{provider}/link`.
 - **Proteksi Berkas Cadangan Konfigurasi:** Mengonfigurasi `.gitignore` root workspace agar mengabaikan berkas arsip `*.zip` guna mencegah tereksposnya konfigurasi sensitif (.env) ke riwayat Git, serta menyusun paket cadangan konfigurasi lintas repositori.
+
+### Adaptasi Frontend: Intersepsi Rate Limiting & Modal Penautan Akun OAuth
+
+- **Response Interceptor HTTP 429 & Notifikasi Global:** Menerapkan response interceptor pada `src/api/client.ts` untuk menangkap kode status 429, mengekstrak header `Retry-After`, dan menyiarkan peringatan jeda waktu tunggu melalui Zustand store `src/stores/toastStore.ts` yang terpasang di root layout (`src/routes/__root.tsx`).
+- **Supresi Auto-Retry TanStack Query:** Mengonfigurasi `QueryClient` pada `src/main.tsx` untuk menonaktifkan percobaan ulang otomatis pada galat HTTP 429 (`retry: false`) dan menyetel batas retry kueri non-429 maksimal 2 kali.
+- **Klien API & Modal Penautan Identitas OAuth:** Menambahkan fungsi klien `linkOAuthProviderApi` pada `src/api/endpoints/auth.ts`, mutasi hook `useLinkOAuthProvider` pada `src/features/auth/hooks/useAuthMutations.ts`, serta antarmuka modal interaktif `src/features/auth/components/AccountProfileModal.tsx` yang dapat diakses dari header navbar dan laci seluler via PR frontend #8.
+- **Verifikasi Rangkaian Pengujian Frontend:** Menambahkan suite pengujian unit interceptor `src/api/client.test.ts` dan pengujian modal `src/features/auth/components/AccountProfileModal.test.tsx` dengan hasil 7 test file dan 23 pengujian berstatus 100% lulus di bawah Node.js 22 LTS.
+
 
 
