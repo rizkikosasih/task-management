@@ -26,3 +26,11 @@ Dokumen pencatatan kendala teknis dan mitigasi pada tingkat sistem orchestrator 
 - **Dampak:** Kegagalan fatal penulisan berkas sesi, kompilasi Blade dokumentasi Scramble, atau penulisan log saat pengujian live.
 - **Mitigasi Terpasang:** Setiap lingkungan kerja baru wajib memastikan keberadaan subdirektori tersebut beserta berkas penjaga `.gitignore` internal.
 
+---
+
+## 4. Latensi Jaringan & Toleransi Ketersediaan Service Eksternal (Redis & OAuth API)
+
+- **Kendala:** Gangguan konektivitas ke server Redis lokal atau latensi tinggi saat menghubungi endpoint verifikasi Google Tokeninfo dan GitHub API.
+- **Dampak:** Potensi galat fatal `ConnectionRefusedException` pada pembatasan frekuensi atau pemblokiran thread proses backend.
+- **Mitigasi Terpasang:** Penyedia `AppServiceProvider` mengonfigurasi mekanisme fallback otomatis ke driver `database` cache apabila instance Redis luring, serta `OAuthTokenValidatorService` membatasi batas waktu koneksi HTTP maksimal 5 detik dengan transformasi ke `BusinessException` berstatus HTTP 422/502.
+
