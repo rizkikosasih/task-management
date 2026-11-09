@@ -8,7 +8,7 @@ Dokumen pencatatan kendala teknis dan mitigasi pada tingkat sistem orchestrator 
 
 - **Kendala:** Penyedia identitas pihak ketiga (terutama akun GitHub dengan konfigurasi privasi tinggi) dapat mengembalikan payload profil tanpa atribut email publik.
 - **Dampak:** Backend gagal melakukan penautan akun otomatis dan melempar eksepsi validasi.
-- **Mitigasi Terpasang:** Pengendali `SocialAuthController` mengecek ketersediaan email sebelum pencarian pengguna lokal. Jika email nihil, pengguna diarahkan kembali dengan parameter galat untuk melengkapi alamat email secara manual.
+- **Mitigasi Terpasang:** Pengendali `SocialAuthController` memvalidasi keberadaan email. Jika email bernilai nihil, permintaan berbasis peramban diarahkan ke `${FRONTEND_URL}/login?error=oauth_email_missing&provider={provider}` (HTTP 302), sedangkan permintaan klien API mengembalikan respon JSON HTTP 422. Antarmuka login frontend menampilkan banner peringatan untuk memandu pengguna melakukan registrasi manual.
 
 ---
 
