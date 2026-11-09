@@ -19,9 +19,9 @@ Hierarki Standar Pelacakan Tugas Proyek: Priority -> Sub-Poin -> Item Pekerjaan.
 
 ### 2. Keamanan, Validasi Token & Pengendalian Akses Jaringan Backend
 
-- [ ] **Rate Limiting Dinamis Berbasis Redis per Identitas Pengguna:**
+- [x] **Rate Limiting Dinamis Berbasis Redis per Identitas Pengguna:**
   Menerapkan pembatasan frekuensi mutasi data API memanfaatkan algoritma token bucket Redis berbasis User ID terotentikasi, dengan mekanisme fallback ke driver database cache.
-- [ ] **Validasi Integritas Token OAuth Terpusat:**
+- [x] **Validasi Integritas Token OAuth Terpusat:**
   Menambahkan verifikasi payload dan status aktif token otentikasi dari penyedia eksternal (Google/GitHub) sebelum finalisasi penautan akun lokal.
 
 ### 3. Notifikasi Domain & Infrastruktur Asinkron Backend
@@ -37,6 +37,8 @@ Hierarki Standar Pelacakan Tugas Proyek: Priority -> Sub-Poin -> Item Pekerjaan.
 
 - [ ] **Modul Pengelolaan Pengguna Admin:**
   Membangun endpoint backend dan antarmuka frontend /admin/users untuk melihat daftar pengguna, memodifikasi peran, dan deaktivasi akun.
+- [ ] **Pengelolaan Profil & Kredensial Pengguna Aktif (Self-Service Profile & Password Management):**
+  Membangun endpoint PUT /api/auth/profile dan PUT /api/auth/password untuk memodifikasi informasi profil pengguna yang sedang terotentikasi (nama, avatar), melakukan penggantian kata sandi dengan verifikasi kata sandi lama, serta menyediakan mekanisme penyetelan kata sandi awal bagi pengguna yang terdaftar murni via OAuth2 agar memiliki opsi login manual.
 - [ ] **Skema Keanggotaan Proyek (Project Membership):**
   Merancang migrasi tabel pivot project_user untuk mengikat kolaborator per proyek dan mentransformasikan wewenang RBAC global menjadi wewenang kontekstual per proyek.
 - [ ] **Delegasi Penugasan Multipel pada Tugas:**
@@ -54,10 +56,15 @@ Hierarki Standar Pelacakan Tugas Proyek: Priority -> Sub-Poin -> Item Pekerjaan.
 
 ### 4. Standarisasi Dokumentasi Workspace & Tautan Publik
 
-- [ ] **Sinkronisasi Spesifikasi Root README.md:**
+- [x] **Sinkronisasi Spesifikasi Root README.md:**
   Menyelaraskan versi framework menjadi Laravel 12, mencantumkan SQLite lokal & MySQL produksi, melengkapi ekosistem frontend (TanStack Router, Zustand, dnd-kit, Tailwind v4), serta memasang tautan repositori remote resmi GitHub.
 - [ ] **Konsolidasi DEV_LOG.md Tingkat Workspace:**
   Menyelaraskan catatan aktivitas pengembangan frontend terkini (tata letak responsif seluler dan pengujian Vitest/MSW) ke dalam berkas DEV_LOG.md root.
+
+### 5. Otomasi Git Hooks & Standardisasi Lingkungan Lintas Platform
+
+- [ ] **Standardisasi Git Hooks Lintas Platform (pre-commit & post-merge):**
+  Membangun skrip .githooks/pre-commit dan .githooks/post-merge yang kompatibel lintas sistem operasi (Linux, macOS, Windows) pada repositori backend dan frontend. Mengonfigurasi penegakan EOL LF via .gitattributes, registrasi izin eksekusi Git index (100755), verifikasi deteksi ketersediaan binary runtime (PHP, Composer, Node, NPM), eksekusi linting cepat pra-commit (Pint/Oxlint) berbasis berkas staged, dan sinkronisasi dependensi otomatis pasca-merge.
 
 ---
 
@@ -98,3 +105,5 @@ Hierarki Standar Pelacakan Tugas Proyek: Priority -> Sub-Poin -> Item Pekerjaan.
   Membangun workflow otomatisasi GitHub Actions (.github/workflows/frontend-ci.yml) yang mengeksekusi pemeriksaan tipe TypeScript, linter Oxlint, format Prettier, suite pengujian Vitest, dan build bundler Vite pada setiap push dan pull request ke branch main.
 - [ ] **Penyempurnaan Skema OpenAPI & Ekspor Swagger UI:**
   Mengonfigurasi skema keamanan Bearer Auth Sanctum dan amplop respon ApiResponse pada Scramble, menambahkan komponen header X-Idempotency-Key pada dokumentasi rute, serta menyediakan generator skema statis docs/api/openapi.json untuk integrasi Postman dan Swagger UI.
+- [ ] **Integrasi Layanan Mailer & Verifikasi Email Akun Lokal:**
+  Mengonfigurasi mail transport (SMTP/Resend/Mailgun), merancang notifikasi email verifikasi kepemilikan akun saat registrasi form manual, dan membangun endpoint reset password terenkripsi token sementara.

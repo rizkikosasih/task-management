@@ -58,14 +58,35 @@ Pengguna memerlukan fleksibilitas masuk ke sistem menggunakan kredensial email-p
 3. Model hibrida dengan penautan akun berbasis kecocokan email terverifikasi.
 
 ### Keputusan
-Menerapkan model hibrida. Laravel Sanctum mengelola penerbitan Bearer Token untuk seluruh sesi aktif. Laravel Socialite menangani pertukaran kode otorisasi OAuth2. Pengguna dengan email yang cocok ditautkan secara otomatis ke tabel `oauth_providers` yang berelasi dengan tabel `users`.
+Menerapkan model hibrida. Laravel Sanctum mengelola penerbitan Bearer Token untuk seluruh sesi aktif. Laravel Socialite menangani pertukaran kode otorisasi OAuth2. Pengguna dengan email yang cocok ditautkan secara otomatis ke tabel `oauth_providers` yang berelasi dengan tabel `users`. Validasi integritas dan masa aktif token eksternal (Google/GitHub) dipusatkan melalui `OAuthTokenValidatorService` langsung ke endpoint penyedia sebelum akun ditautkan.
 
 ### Konsekuensi
-- Positif: Integrasi identitas pengguna terpusat dan mulus.
-- Batasan: Memerlukan penanganan kegagalan jika penyedia OAuth tidak menyertakan alamat email publik.
+- Positif: Integrasi identitas pengguna terpusat dan mulus dengan proteksi integritas kriptografis token eksternal.
+- Batasan: Memerlukan toleransi latensi jaringan eksternal (100–300ms) saat verifikasi token ke server penyedia.
 
 ### Status Implementasi
-Teraplikasi dan tervalidasi pada unit/feature test backend.
+Teraplikasi dan tervalidasi pada unit/feature test backend (`OAuthTokenValidationTest`).
+
+---
+
+## ADR-005: Pengendalian Frekuensi API Dinamis Berbasis Token Bucket & Resilient Fallback
+
+### Konteks
+Permintaan mutasi data dan endpoint autentikasi rentan terhadap serangan brute force, credential stuffing, dan lonjakan request berlebih yang dapat membebani basis data dan komputasi server.
+
+### Alternatif
+1. Rate limiting memori lokal web server (in-memory file limiter).
+2. Rate limiting terdistribusi berbasis Redis token bucket dengan mekanisme fallback otomatis ke database cache.
+
+### Keputusan
+Mengadopsi named rate limiter bertingkat di Laravel `AppServiceProvider` berbasis Redis (`api-auth` 10/menit, `api-oauth` 15/menit, `api-mutations` 60/menit, `api-reads` 120/menit) dengan resolusi identitas per User ID dan fallback otomatis ke driver database cache apabila server Redis luring. Respon pembatasan distandarisasi ke amplop HTTP 429 berheader `Retry-After`.
+
+### Konsekuensi
+- Positif: Mencegah serangan brute force dan isolasi kuota antar pengguna tanpa risiko kegagalan sistem saat Redis tidak aktif.
+- Batasan: Memerlukan penanganan resolusi identitas request sebelum eksekusi middleware rate limit.
+
+### Status Implementasi
+Teraplikasi pada `AppServiceProvider`, `routes/api.php`, `ApiExceptionTransformer`, dan tervalidasi via `RateLimitingTest`.
 
 ---
 
