@@ -100,7 +100,7 @@ Ambang batas named rate limiter terdistribusi:
 
 ## 6. Spesifikasi Penautan Akun Pihak Ketiga (OAuth Link)
 
-Endpoint `POST /api/auth/social/{provider}/link` mendukung penautan identitas Google dan GitHub ke akun pengguna terotentikasi:
+Endpoint `POST /api/oauth/{provider}/link` mendukung penautan identitas Google dan GitHub ke akun pengguna terotentikasi:
 - Menerima parameter opsional `token` (Google ID Token, Google Access Token, atau GitHub Personal/OAuth Token).
 - Melakukan verifikasi integritas kriptografis dan masa aktif token langsung ke server penyedia (Google Tokeninfo API atau GitHub API).
 - Memastikan alamat email penyedia cocok dengan email pengguna dan berstatus terverifikasi sebelum mencatat relasi pada tabel `oauth_providers`.
