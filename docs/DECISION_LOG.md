@@ -109,3 +109,25 @@ Menerapkan penguncian pesimistis (`lockForUpdate`) pada transaksi perubahan stat
 ### Status Implementasi
 Teraplikasi pada `TaskController` dan unit test backend.
 
+---
+
+## ADR-006: Standarisasi Efisiensi Pipeline CI Bebas Layanan Kontainer dan Retensi Artefak
+
+### Konteks
+Pipeline CI backend sebelumnya memuat service container MySQL 8.0 dan menghasilkan arsip zip artefak build pada setiap Pull Request. Hal ini memboroskan kuota menit komputasi GitHub Actions hingga 2–3 menit per eksekusi dan menguras batas kapasitas penyimpanan repositori cloud, padahal suite pengujian unit dan integrasi backend telah terisolasi penuh menggunakan SQLite in-memory.
+
+### Alternatif
+1. Mempertahankan service MySQL dan memperpendek interval health check.
+2. Mengeliminasi service container basis data eksternal, meniadakan pembuatan artefak kompilasi untuk pipeline murni evaluasi kode, serta menerapkan mekanisme pembatalan proses komit terdahulu (*cancel-in-progress*) dan cache dependensi Composer.
+
+### Keputusan
+Mengadopsi alternatif kedua. Seluruh pengujian otomatis dijalankan murni di atas SQLite in-memory (`:memory:`), menghapus dependensi container MySQL pada alur kerja, menambahkan `actions/cache@v4` untuk dependensi Composer, membatalkan alur kerja yang tertimpa komit baru secara otomatis, serta menghapus tahapan pembuatan dan unggah artefak zip.
+
+### Konsekuensi
+- Positif: Memangkas durasi komputasi alur kerja dari ~2-3 menit menjadi ~30-45 detik per eksekusi, mencegah kehabisan kuota menit GitHub Actions, dan mengeliminasi pemborosan ruang penyimpanan repositori.
+- Batasan: Perubahan skema basis data spesifik sintaksis MySQL yang tidak didukung SQLite memerlukan pengujian manual terpisah di lingkungan lokal jika ada.
+
+### Status Implementasi
+Teraplikasi pada `.github/workflows/laravel-ci.yml` di sub-repositori backend.
+
+

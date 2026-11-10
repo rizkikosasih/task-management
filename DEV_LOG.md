@@ -63,5 +63,17 @@
 - **Klien API & Modal Penautan Identitas OAuth:** Menambahkan fungsi klien `linkOAuthProviderApi` pada `src/api/endpoints/auth.ts`, mutasi hook `useLinkOAuthProvider` pada `src/features/auth/hooks/useAuthMutations.ts`, serta antarmuka modal interaktif `src/features/auth/components/AccountProfileModal.tsx` yang dapat diakses dari header navbar dan laci seluler via PR frontend #8.
 - **Verifikasi Rangkaian Pengujian Frontend:** Menambahkan suite pengujian unit interceptor `src/api/client.test.ts` dan pengujian modal `src/features/auth/components/AccountProfileModal.test.tsx` dengan hasil 7 test file dan 23 pengujian berstatus 100% lulus di bawah Node.js 22 LTS.
 
+## 2026-11-10
+
+### Restrukturisasi dan Efisiensi Workflow CI Backend
+
+- **Restrukturisasi Alur Kerja CI:** Menata ulang `.github/workflows/laravel-ci.yml` pada sub-repositori backend dengan menghapus kontainer `services: mysql` yang tidak terpakai, mengingat suite pengujian backend telah terisolasi penuh pada SQLite in-memory (`:memory:`).
+- **Mekanisme Kontrol Konkurensi & Pembatalan:** Menambahkan blok konfigurasi `concurrency` dengan parameter `cancel-in-progress: true` untuk membatalkan proses alur kerja lama secara otomatis saat komit baru masuk pada cabang Pull Request yang sama.
+- **Cache Dependensi Composer:** Memasang `actions/cache@v4` untuk direktori dependensi Composer guna memangkas durasi unduhan paket jaringan pada setiap eksekusi alur kerja.
+- **Penerapan Prinsip Fail-Fast:** Memosisikan verifikasi gaya kode Laravel Pint dan analisis statis PHPStan sebelum penyiapan lingkungan dan pengujian PHPUnit agar proses komputasi langsung terhenti jika terdapat pelanggaran format atau tipe data.
+- **Peniadaan Artefak Build:** Menghapus tahapan kompresi zip dan `actions/upload-artifact@v4` guna mencegah konsumsi kuota penyimpanan repositori GitHub yang terbatas.
+- **Penyelarasan Master ADR:** Mendokumentasikan keputusan teknis efisiensi CI pada `docs/DECISION_LOG.md` (ADR-006).
+
+
 
 
